@@ -1,9 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+VAGRANT_IP = '192.168.211.39'
+
 Vagrant.configure(2) do |config|
   config.vm.box = "ubuntu/trusty64"
   config.vm.hostname = "machine1"
   config.ssh.insert_key = false
+  config.vm.synced_folder "./apps", "/apps/"
+  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network :private_network, ip: VAGRANT_IP
 
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbook.yml"
@@ -17,7 +22,6 @@ end
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.

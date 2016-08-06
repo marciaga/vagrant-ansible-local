@@ -5,16 +5,49 @@
       shell: touch ~/.bash_profile
       sudo: yes
 
-    - name: Install curl
-      apt: name=curl update_cache=yes
+    - name: Install packages
+      apt: pkg={{ item }} state=installed update_cache=yes
+      with_items:
+        - curl
+        - node
+        - npm
+        - git
+        - git-core
+        - zlib1g-dev
+        - build-essential
+        - libssl-dev
+        - libreadline-dev
+        - libyaml-dev
+        - libsqlite3-dev
+        - sqlite3
+        - libxml2-dev
+        - libxslt1-dev
+        - libcurl4-openssl-dev
+        - python-software-properties
+        - libffi-dev
       sudo: yes
 
-    - name: Install nvm
-      shell: >
-        curl https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | sh
-        creates=/home/.nvm/nvm.sh
+    - name: Install n for Node version
+      npm: name=n global=yes
+      sudo: yes
 
-    - name: Install node and set version
-      shell: >
-        /bin/bash -c "source ~/.nvm/nvm.sh && nvm install 4.2 && nvm alias default 4.2"
-        creates=/home/.nvm/alias
+    - name: Switch node version to 4.4.7
+      shell: n 4.4.7
+      sudo: yes
+
+    - name: Install rbenv
+      shell: cd && git clone git://github.com/sstephenson/rbenv.git .rbenv
+
+    - name: set PATH in bash profile
+      shell: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile && echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+
+    - name: Install rbenv plugins
+      shell: git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+    - name: set Path for rbenv plugins in bash profile
+      shell: echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bash_profile
+    
+    - name: Reload bash profile and install Ruby and set global version
+      shell: source /home/vagrant/.bash_profile && gem install bundler && gem install rails -v 4.2.6 && rbenv rehash
+      args:
+        executable: /bin/bash

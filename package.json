@@ -1,0 +1,21 @@
+{
+  "name": "vagrant-environment",
+  "version": "1.0.0",
+  "description": "Vagrant dev environment for Ruby development",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marciaga/vagrant-environment"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marciaga/vagrant-environment/issues"
+  },
+  "dependencies": {
+
+  }
+}
