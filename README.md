@@ -18,6 +18,8 @@ This will run the Vagrantfile, followed by the Ansible playbook.
 
 The `apps` directory maps to `/apps/` in the guest machine.
 
+You'll need to create the apps directory in the root of this repo.
+
 Currently, port forwarding is set to `:3000`, so from inside the VM, if you want to run the rails server (e.g.), you would run
 ```
 rails s -b 0.0.0.0 -p 3000
